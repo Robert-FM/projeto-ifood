@@ -4,8 +4,13 @@ from dependencies import pegar_sessao
 from main import bcrypt_context
 from schemas import UsuarioSchema
 from sqlalchemy.orm import Session
+from schemas import LoginSchema
 
 auth_router = APIRouter(prefix='/auth',tags=['auth'])
+
+def criar_token(id_usuario: int):
+    token = f'kdk5889dssç{id_usuario}'
+    return token
 
 @auth_router.get('/')
 async def home():
@@ -27,3 +32,15 @@ async def criar_conta(usuario_schemas: UsuarioSchema,session: Session = Depends(
         session.add(novo_usuario)
         session.commit()
         return {'Mensagem':f'Conta criada com sucesso {usuario_schemas.email}!'} 
+    
+@auth_router.post('/login')
+async def login(login_schema: LoginSchema,session: Session = Depends(pegar_sessao)):
+    usuario = session.query(Usuario).filter(Usuario.email == login_schema.email).first()
+    if not usuario:
+        raise HTTPException(status_code=400,detail='E-mail ou senha incorretos!')
+    else:
+        access_token = criar_token(usuario.id)
+        return {
+            'access_token': access_token,
+            'token_type': 'Bearer'
+        }

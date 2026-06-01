@@ -64,4 +64,5 @@ class ItemPedido(Base):
         self.preco_unitario = preco_unitario
         self.pedido = pedido
 
-#executa a criação do banco de dados
+# executa a criação do banco de dados
+#Base.metadata.create_all(bind=db)

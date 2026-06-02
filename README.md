@@ -1,4 +1,4 @@
-# 🍕 Projeto iFood API
+# 🍕 API REST para Gerenciamento de Pedidos
 
 API REST desenvolvida com **FastAPI** para gerenciamento de usuários e pedidos, utilizando autenticação JWT, banco de dados SQLite e migrações com Alembic.
 
